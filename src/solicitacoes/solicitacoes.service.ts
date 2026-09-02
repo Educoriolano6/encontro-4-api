@@ -26,4 +26,14 @@ export class SolicitacoesService {
     solicitacao.status = 'aprovada';
     return solicitacao;
   }
+
+  gerarRelatorio() {
+    const total = this.solicitacoes.length;
+    const porStatus = this.solicitacoes.reduce((acc, s) => {
+      acc[s.status] = (acc[s.status] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return { total, porStatus };
+  }
 }

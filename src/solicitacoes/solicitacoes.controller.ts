@@ -1,4 +1,4 @@
-import { Controller,Get, Param, ParseIntPipe, Patch, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Patch, UseGuards } from '@nestjs/common';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -9,14 +9,17 @@ import { SolicitacoesService } from './solicitacoes.service';
 export class SolicitacoesController {
   constructor(private readonly solicitacoesService: SolicitacoesService) {}
 
-
+  @Roles('gestor', 'auditor')
+  @Get('relatorio')
+  gerarRelatorio() {
+    return this.solicitacoesService.gerarRelatorio();
+  }
 
   @Roles('gestor', 'auditor')
   @Get(':id')
-  buscarPorId(@Param ('id', ParseIntPipe) id: number){
+  buscarPorId(@Param('id', ParseIntPipe) id: number) {
     return this.solicitacoesService.buscarPorId(id);
   }
-
 
   @Roles('gestor')
   @Patch(':id/aprovar')
