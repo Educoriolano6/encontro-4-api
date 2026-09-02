@@ -27,10 +27,9 @@ export class UsuariosService {
     const ultimoSobrenome = 'Nunes';
     const matricula = '20251038060020';
     const matriculaInvertida = '02006083015202';
-    
+
     const senhaPadraoHash = await bcrypt.hash('senha123', 10);
     const senhaGestorHash = await bcrypt.hash(matricula, 10);
-    console.log('Usuários criados:', this.usuarios.map(u => u.email));
     const senhaAuditorHash = await bcrypt.hash(matriculaInvertida, 10);
 
     this.usuarios.push(
@@ -61,7 +60,7 @@ export class UsuariosService {
       {
         id: 4,
         nome: primeiroNome,
-        email: `${primeiroNome.toLowerCase()}@empresa.com`,
+        email: 'eduardo@empresa.com',
         senhaHash: senhaGestorHash,
         papel: 'gestor',
         ativo: true,
@@ -69,15 +68,21 @@ export class UsuariosService {
       {
         id: 5,
         nome: ultimoSobrenome,
-        email: `${ultimoSobrenome.toLowerCase()}@empresa.com`,
+        email: 'nunes@empresa.com',
         senhaHash: senhaAuditorHash,
         papel: 'auditor',
         ativo: true,
       }
     );
+
+    console.log('✅ Usuários criados:', this.usuarios.map(u => u.email));
   }
 
   buscarPorEmail(email: string) {
+    return this.usuarios.find((usuario) => usuario.email === email);
+  }
+
+  buscarPorEmailComSenha(email: string): Usuario | undefined {
     return this.usuarios.find((usuario) => usuario.email === email);
   }
 }
